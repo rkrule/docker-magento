@@ -17,3 +17,7 @@ bin/download "${VERSION}" "${EDITION}" \
 bin/composer require mageplaza/module-cron-schedule
 bin/magento setup:upgrade
 bin/magento setup:static-content:deploy
+
+#Disable two-factor for dev environments
+bin/magento module:disable Magento_TwoFactorAuth
+bin/magento cache:flush
