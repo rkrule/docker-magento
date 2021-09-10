@@ -4,6 +4,7 @@ set -o errexit
 DOMAIN=${1:-magento2.local}
 VERSION=${2:-2.4.3}
 EDITION=${3:-community}
+TYPE=${4:-sandbox}
 
 curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
@@ -18,6 +19,9 @@ bin/composer require mageplaza/module-cron-schedule
 bin/magento setup:upgrade
 bin/magento setup:static-content:deploy
 
-#Disable two-factor for dev environments
-bin/magento module:disable Magento_TwoFactorAuth
-bin/magento cache:flush
+if[ "$TYPE" = "sandbox" ];
+then
+    #Disable two-factor for dev environments
+    bin/magento module:disable Magento_TwoFactorAuth
+    bin/magento cache:flush
+fi
